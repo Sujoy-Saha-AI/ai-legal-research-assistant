@@ -4,4 +4,8 @@ app=FastAPI()
 
 @app.get("/")
 def root():
-    return {"message"" AI legal Research Assistnat API"}
+    return {"message": "AI legal Research Assistnat API"}
+
+@app.get("/health")
+def health_check():
+    return {"status": "healthy"}
