@@ -15,11 +15,16 @@ client.create_collection(
 # create_collection = Qdrant method , collection_name = parameter define by create_collection method, legal_document= file name that we chose
 #
 
-def store_chunk(point_id: int, vector: list, text: str):
+def store_chunk(point_id: int, vector: list, text: str,filename:str,page:int,heading:list):
     point = PointStruct(
         id=point_id,
         vector=vector,
-        payload={"text":text}
+        payload={
+                "text":text,
+                 "filename":filename,
+                 "page":page,
+                 "heading":heading
+                 }
         )
     client.upsert(
     collection_name="legal_documents",
@@ -41,6 +46,12 @@ def store_chunk(point_id: int, vector: list, text: str):
 
 # it's result shows the file legal connection is stored 
 
+# now check whether Qdrant can store the chunk or not
+# python -c "from app.ingestion.vector_store import client, store_chunk; print('Vector store loaded successfully')"
+
+# now store the chunk 2 in vector database successfully following below code
+
+# python -c "from app.ingestion.document_loader import load_document;from app.ingestion.chunker import chunk_document;from app.ingestion.embedder import create_embedding;from app.ingestion.vector_store import store_chunk;my_document=load_document('data/abreu_v._howard_university.pdf');structured_document=my_document.document;my_chunks=chunk_document(structured_document);vector=create_embedding(my_chunks[1].text);store_chunk(2,vector,my_chunks[1].text);print('chunk 2 stored successfully')"
 
 
 # Things to remember:

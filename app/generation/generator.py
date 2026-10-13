@@ -11,3 +11,4 @@ def generate_answer(question: str, context: str):
     )
 
     return response.output_text
+
