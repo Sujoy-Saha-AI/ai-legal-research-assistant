@@ -1,14 +1,19 @@
 from qdrant_client import QdrantClient
 from qdrant_client.models import VectorParams, Distance, PointStruct
-client= QdrantClient(":memory:")
+from app.core.config import settings
+client= QdrantClient(
+    url=settings.qdrant_url,
+    api_key=settings.qdrant_api_key
+) # before adding the qdrant_url and qdrant_api_key in the env and config file it was client= QdrantClient(":memory:")
 
-client.create_collection(
-    collection_name="legal_documents",
-    vectors_config=VectorParams(
-        size=3072,
-        distance=Distance.COSINE
+if not client.collection_exists("legal_documents"):
+    client.create_collection(
+        collection_name="legal_documents",
+        vectors_config=VectorParams(
+            size=3072,
+            distance=Distance.COSINE
+        )
     )
-)
 
 # code explanation for above
 # intially PointStruct class was not on above code to execute next code we will add it
