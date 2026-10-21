@@ -1,5 +1,5 @@
-code .dockerignore
 .venv/
 .env
 .git/
 __pycache__/
+*.pyc         # python bytecode
