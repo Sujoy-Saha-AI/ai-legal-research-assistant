@@ -3,16 +3,17 @@
    # return {"processed question":question}
 # later we used below whenever the retriever.py and generator.py  file is done
 
-from app.retrieval.retriever import retrieve_chunks
+from app.retrieval.hybrid_retriever import hybrid_retrieve
 from app.generation.generator import generate_answer
 
 def process_research_question(question: str):
-    retrieved_points = retrieve_chunks(question)
+    hybrid_results = hybrid_retrieve(question)
 
     context_parts = [] # before adding the metadata to LLM it was context_parts = [point.payload["text"] for point in retrieved_points] # below that text = point.payload["text"]
     sources=[]    
 
-    for point in retrieved_points:
+    for result in hybrid_results:
+        point = result["point"]
         text = point.payload["text"]
         filename = point.payload["filename"]
         page = point.payload["page"]
